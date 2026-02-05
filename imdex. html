@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الاستعداد لرمضان</title>
+  <style>
+    body {
+      font-family: 'Tahoma', Arial, sans-serif;
+      background: linear-gradient(135deg, #f7f7f7, #eaeaea);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #222;
+    }
+    .container {
+      background: #ffffff;
+      max-width: 900px;
+      width: 95%;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .box {
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #eee;
+    }
+    .box h2 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #0a7d5c;
+    }
+    .content {
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    .countdown {
+      font-size: 22px;
+      font-weight: bold;
+      color: #b85c00;
+    }
+    footer {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h2>آية اليوم</h2>
+      <div class="content" id="ayah"></div>
+    </div>
+
+    <div class="box">
+      <h2>حديث اليوم</h2>
+      <div class="content" id="hadith"></div>
+    </div>
+
+    <div class="box">
+      <h2>دعاء اليوم</h2>
+      <div class="content" id="dua"></div>
+    </div>
+
+    <div class="box">
+      <h2>العد التنازلي لرمضان</h2>
+      <div class="countdown" id="ramadan"></div>
+    </div>
+
+    <footer>
+      يتجدد المحتوى تلقائياً كل 24 ساعة 🌙
+    </footer>
+  </div>
+
+  <script>
+    // قوائم المحتوى (تتغير يومياً)
+    const ayat = [
+      '﴿يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ﴾',
+      '﴿وَأَن تَصُومُوا خَيْرٌ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ﴾',
+      '﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ﴾'
+    ];
+
+    const ahadith = [
+      'قال ﷺ: من صام رمضان إيمانًا واحتسابًا غُفر له ما تقدم من ذنبه.',
+      'قال ﷺ: للصائم فرحتان: فرحة عند فطره، وفرحة عند لقاء ربه.',
+      'قال ﷺ: إذا جاء رمضان فُتحت أبواب الجنة.'
+    ];
+
+    const adiya = [
+      'اللهم بلغنا رمضان وبارك لنا فيه.',
+      'اللهم أعنا على الصيام والقيام وغض البصر وحفظ اللسان.',
+      'اللهم اجعل رمضان شهر خير وبركة ومغفرة.'
+    ];
+
+    // اختيار المحتوى حسب اليوم (يتغير كل 24 ساعة)
+    const todayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+
+    document.getElementById('ayah').innerText = ayat[todayIndex % ayat.length];
+    document.getElementById('hadith').innerText = ahadith[todayIndex % ahadith.length];
+    document.getElementById('dua').innerText = adiya[todayIndex % adiya.length];
+
+    // تاريخ متوقع لبداية رمضان 2026 (يمكنك تعديله عند الحاجة)
+    const ramadanDate = new Date('2026-02-18T00:00:00');
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = ramadanDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('ramadan').innerText = 'رمضان مبارك 🌙';
+        return;
+      }
+
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      document.getElementById('ramadan').innerText = `باقي ${days} يوم على رمضان`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60 * 60 * 1000); // تحديث كل ساعة
+  </script>
+</body>
+</html>
